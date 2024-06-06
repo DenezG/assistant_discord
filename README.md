@@ -1,6 +1,7 @@
 # Assistant Discord
 
-Ce projet est basé sur un [tutoriel YouTube](https://www.youtube.com/watch?v=KZ3tIGHU314) qui explique comment créer un assistant Discord.
+Ce projet est basé sur un [tutoriel YouTube](https://www.youtube.com/watch?v=KZ3tIGHU314) qui explique comment créer un Bot Discord.
+Regarder le tutorial pour créer un Bot Discord, lui donner les permissions nécessaires et récupérer son TOKEN et son CLIENT_ID.
 
 ## Cloner le dépôt Git
 
