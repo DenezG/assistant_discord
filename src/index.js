@@ -3,7 +3,7 @@ import  Chat  from './chat.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
-
+//Informations aux quelles le bot a accès.
 const client = new Client({
     intents: [
         IntentsBitField.Flags.Guilds,
@@ -19,6 +19,7 @@ client.on('ready', (c) => {
     console.log(`Logged in as ${client.user.tag}`);
 });
 
+//Réponse du bot suite à un message de l'utilisateur commençant par "Compas"
 client.on('messageCreate', async (message) => {
     if(message.author.bot) return;
     if(message.content.startsWith('Compas')) {
@@ -28,4 +29,5 @@ client.on('messageCreate', async (message) => {
     }
 });
 
+//Connexion du bot au serveur Discord
 client.login(process.env.TOKEN);
