@@ -21,7 +21,7 @@ client.on('ready', (c) => {
 
 client.on('messageCreate', async (message) => {
     if(message.author.bot) return;
-    if(message.content.startsWith('Compas ')) {
+    if(message.content.startsWith('Compas')) {
         const chatResponse = await Chat(message.content);
         console.log("Réponse Index: " + chatResponse);
         message.reply(chatResponse);
