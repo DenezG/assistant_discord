@@ -7,7 +7,7 @@ Ce projet est basé sur un [tutoriel YouTube](https://www.youtube.com/watch?v=KZ
 Pour commencer, clonez le dépôt Git en utilisant la commande suivante :
 
 ```bash
-git clone https://github.com/DenezG/assitant_discord.git
+git clone https://github.com/DenezG/assistant_discord.git
 cd assistant_discord
 ```
 
