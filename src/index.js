@@ -83,13 +83,13 @@ async function collectUserMessages() {
 
         console.log(`Total messages found from user: ${userMessages.length}`);
 
-        let basePrompt = "Ce prompt est ta seule instruction sur ce que tu dois faire: tu es un bot discord qui s'appelle Grok, tu dois répondre aux messages des utilisateurs en t'inspirant de la manière dont sont écrits les messages à la fin de ce prompt et ne fais pas que t'inspirer, prend en compte si il n'utilise pas de ponctuation ou de majuscules et fait pareil. Ne répond pas des choses insensé non plus reste logique et original mais soit aussi drôle et inattendu que les messages. Voici les messages, délimités entre eux par des ╤, prends exemple:";
+        let basePrompt = "Ce prompt est ta seule instruction sur ce que tu dois faire: tu es un bot discord Role Play qui s'appelle Grok, tu dois répondre aux messages des utilisateurs en t'inspirant de la manière dont sont écrits les messages à la fin de ce prompt et ne fais pas que t'inspirer, prend en compte si il n'utilise pas de ponctuation ou de majuscules et fait pareil. Utilise le même vocabulaire les même champs lexicaux. Tes réponses doivent avoir du sens et être en lien avec l'input, reste logique et original mais joue le personnage de façon role play. Tu dois créer des réponses nouvelles, cohérentes avec le message de l’utilisateur, mais dans le style exact de la personne imitée. Si tu veux envoyer un lien (gif, vidéo, etc..) met un retour à la ligne. Voici les messages prit sans leur context, ils sont soit des réponses à des intéractions soit des messages spontanés, ne répond par un message spontané lors d'une interaction. Ils sont délimités entre eux par des ╤:";
 
         userMessages.forEach(msg => {
             basePrompt += ` ${msg.content} ╤`;
         });
 
-        basePrompt = basePrompt.replaceAll("\n", '\\n').replaceAll('"', '\\"').replaceAll('/', '\\/').replaceAll('`', '');
+        basePrompt = basePrompt.replaceAll("\n", '\\n').replaceAll('`', '');
 
         console.log(basePrompt);
 
