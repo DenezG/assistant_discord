@@ -1,5 +1,6 @@
 import { Client, IntentsBitField } from 'discord.js';
 import Chat from './chat.js';
+import Chat from './chat.js';
 import dotenv from 'dotenv';
 import { runGeminiChat } from './gemini.js';
 import fs from 'fs';
@@ -8,6 +9,9 @@ dotenv.config();
 
 //Informations aux quelles le bot a accès
 const client = new Client({
+    partials: [
+        'CHANNEL'
+    ],
     partials: [
         'CHANNEL'
     ],
@@ -111,6 +115,7 @@ client.on('ready', async (c) => {
     await collectUserMessages(); // Uncomment this line to collect messages from TARGET_USER_ID and reset the base prompt
 });
 
+//Réponse du bot suite à un message de l'utilisateur commençant par "Grok"
 //Réponse du bot suite à un message de l'utilisateur commençant par "Grok"
 client.on('messageCreate', async (message) => {
     console.log("Message reçu: " + message.content);
