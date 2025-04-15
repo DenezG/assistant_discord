@@ -1,0 +1,4 @@
+{
+    "ignore": ["chat_history.json"],
+    "ext": "js,json"
+  }

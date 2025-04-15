@@ -11,6 +11,7 @@
   "type": "module",
   "description": "",
   "dependencies": {
+    "@google/generative-ai": "^0.24.0",
     "discord.js": "^14.15.2",
     "dotenv": "^16.4.5",
     "openai": "^4.47.2",
@@ -22,5 +23,9 @@
     "@types/node": "^20.12.12",
     "tsx": "^4.11.0",
     "typescript": "^5.4.5"
-  }
+  },
+    "nodemonConfig": {
+      "ignore": ["chat_history.json"],
+      "ext": "js,json"
+    }
 }
