@@ -6,6 +6,9 @@ dotenv.config();
 
 //Informations aux quelles le bot a accès.
 const client = new Client({
+    partials: [
+        'CHANNEL'
+    ],
     intents: [
         IntentsBitField.Flags.Guilds,
         IntentsBitField.Flags.GuildMembers,
@@ -43,7 +46,7 @@ function isTextOnlyMessage(message) {
     );
 }
 
-const TARGET_USER_ID = '172039801145524224';
+const TARGET_USER_ID = '570280130174517249';
 const TARGET_GUILD_ID = '894650071440846888';
 
 async function collectUserMessages() {
@@ -72,16 +75,25 @@ async function collectUserMessages() {
 
         console.log(`Total messages found from user: ${userMessages.length}`);
 
-        let basePrompt = "Tu es un bot discord, tu dois aider les utilisateur quand ils te posent des questions. Tu dois répondre en t'inspirant de la manière dont parle le chef du server nommé hamster des poussières. Ne répond pas des choses insensé non plus reste logic et utile mais soit aussi drôle et inattendu que lui. Voici ses messages, délimités entre eux par des ╤, prends exemple:";
+        let basePrompt = "Tu es un bot discord, tu dois aider les utilisateur quand ils te posent des questions. Tu dois répondre en t'inspirant de la manière dont parle le chef du serveur nommé sub30maker. Ne répond pas des choses insensé non plus reste logique mais soit aussi drôle et inattendu que lui. Voici ses messages, délimités entre eux par des ╤, prends exemple:";
 
         userMessages.forEach(msg => {
             basePrompt += ` ${msg.content} ╤`;
         });
 
+        basePrompt = basePrompt.replaceAll("\n", '\\n').replaceAll('"', '\\"').replaceAll('/', '\\/').replaceAll('`', '');
+
         console.log(basePrompt);
 
         let jsonContent = JSON.parse('');
         jsonContent.push({ role: "user", parts: [{ text: basePrompt }] });
+        const HISTORY_FILE = path.join(process.cwd(), 'chat_history_tmp.json');
+
+        try {
+            fs.writeFileSync(HISTORY_FILE, jsonContent, 'utf8');
+        } catch (error) {
+            console.error("Erreur lors de la sauvegarde de l'historique:", error);
+        }
     } catch (error) {
         console.error('Error:', error);
     }
@@ -90,19 +102,31 @@ async function collectUserMessages() {
 client.on('ready', (c) => {
     console.log(`Logged in as ${client.user.tag}`);
 
-    collectUserMessages();
+    collectUserMessages(); // Uncomment this line to collect messages from TARGET_USER_ID
 });
 
 //Réponse du bot suite à un message de l'utilisateur commençant par "Grok"
 client.on('messageCreate', async (message) => {
     console.log("Message reçu: " + message.content);
     if (message.author.bot) return;
-    if (message.content.startsWith('Grok') || message.content.startsWith('grok') || message.content.startsWith('GROK') || message.content.includes('<@1250056134258065440>')) {
+
+    if (message.content.startsWith('Grok') || message.content.startsWith('grok') || message.content.startsWith('GROK') || message.content.includes('<@1250056134258065440>') || message.type === 'DM') {
         try {
             // Utiliser Gemini au lieu d'OpenAI
             const chatResponse = await runGeminiChat(message.content);
             console.log("Réponse Index (Gemini): " + chatResponse);
-            message.reply(chatResponse);
+            if (!chatResponse.includes('``') && chatResponse.split('\n').length > 1) {
+                const splitResponse = chatResponse.split('\n');
+                message.reply(splitResponse[0]);
+
+                for (let i = 1; i < splitResponse.length; i++) {
+                    setTimeout(() => {
+                        if (splitResponse[i].length > 0) message.channel.send(splitResponse[i]);
+                    }, i * 100); // Envoie chaque partie avec un délai de 3 secondes
+                }
+            } else {
+                message.reply(chatResponse);
+            }
         } catch (error) {
             console.error("Erreur avec l'API Gemini:", error);
             message.reply("Désolé, j'ai rencontré une erreur en essayant de répondre.");
