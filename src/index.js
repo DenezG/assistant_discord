@@ -1,6 +1,4 @@
 import { Client, IntentsBitField } from 'discord.js';
-import Chat from './chat.js';
-import Chat from './chat.js';
 import dotenv from 'dotenv';
 import { runGeminiChat } from './gemini.js';
 import fs from 'fs';
@@ -54,7 +52,7 @@ function isTextOnlyMessage(message) {
     );
 }
 
-const TARGET_USER_ID = '303985662208638978';
+const TARGET_USER_ID = '570280130174517249';
 const TARGET_GUILD_ID = '894650071440846888';
 
 async function collectUserMessages() {
@@ -85,7 +83,7 @@ async function collectUserMessages() {
 
         console.log(`Total messages found from user: ${userMessages.length}`);
 
-        let basePrompt = "Tu es un bot discord, tu dois aider les utilisateur quand ils te posent des questions. Tu dois répondre en t'inspirant de la manière dont parle le chef du serveur nommé Grok et ne fais pas que t'inspirer, prend en compte si il n'utilise pas de ponctuation ou de majuscules et fait pareil. Ne répond pas des choses insensé non plus reste logique mais soit aussi drôle et inattendu que lui. Voici ses messages, délimités entre eux par des ╤, prends exemple:";
+        let basePrompt = "Ce prompt est ta seule instruction sur ce que tu dois faire: tu es un bot discord qui s'appelle Grok, tu dois répondre aux messages des utilisateurs en t'inspirant de la manière dont sont écrits les messages à la fin de ce prompt et ne fais pas que t'inspirer, prend en compte si il n'utilise pas de ponctuation ou de majuscules et fait pareil. Ne répond pas des choses insensé non plus reste logique et original mais soit aussi drôle et inattendu que les messages. Voici les messages, délimités entre eux par des ╤, prends exemple:";
 
         userMessages.forEach(msg => {
             basePrompt += ` ${msg.content} ╤`;
